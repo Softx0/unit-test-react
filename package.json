@@ -17,8 +17,8 @@
     "build": "npm run build:css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:css": "postcss src/assets/styles/input.css -o .dist/output.css",
-    "watch:css": "postcss src/assets/styles/input.css -o .dist/output.css"
+    "build:css": "postcss src/assets/styles/input.css -o ./dist/output.css",
+    "watch:css": "postcss src/assets/styles/input.css -o ./dist/output.css"
   },
   "eslintConfig": {
     "extends": [
