@@ -15,7 +15,7 @@
   "scripts": {
     "start": "npm run watch:css && react-scripts start",
     "build": "npm run build:css && react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll --coverage",
     "eject": "react-scripts eject",
     "build:css": "postcss src/assets/styles/input.css -o ./dist/output.css",
     "watch:css": "postcss src/assets/styles/input.css -o ./dist/output.css"
