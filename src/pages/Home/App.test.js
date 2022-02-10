@@ -3,15 +3,19 @@ import App from './App';
 
 describe('App Test Suite', () => {
 
+  beforeEach(() => {
+    render(<App />)
+  });
+
   test('renders Free Disctionary title', () => {
-    render(<App />);
-    screen.debug(); // para debugear y ver el componente a renderizar
+    // screen.debug(); // para debugear y ver el componente a renderizar
 
     // la i es de ignoreCase
     const linkElement = screen.getByText(/Hello world/i);
     expect(linkElement).toBeInTheDocument();
   });
 
+  // Differents types of queries
   // Para consulta de elementos asincronos
   // screen.findAllByText();
 
@@ -22,11 +26,19 @@ describe('App Test Suite', () => {
   // Para consultar elementos que pueden estar o no estar en el DOM, si no existe retorna null pero no da error
   // screen.queryAllByText();
 
-  test('differents types of query', () => {
-    render(<App />);
 
+  // Nota: dejar las pruebas los planas posibles, y single responsability
+  test(`should render element's form`, () => {
 
+    // buscando por el label correspondiente a un input
+    const inputEl = screen.getByLabelText(/Word/i);
+    expect(inputEl).toBeInTheDocument();
 
+    const btnEl = screen.getByRole('button', { name: /consultar/i });
+    expect(btnEl).toBeInTheDocument();
   });
+
+
+  
 
 });
