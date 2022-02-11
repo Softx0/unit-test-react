@@ -11,7 +11,7 @@ describe('App Test Suite', () => {
     // screen.debug(); // para debugear y ver el componente a renderizar
 
     // la i es de ignoreCase
-    const linkElement = screen.getByText(/Hello world/i);
+    const linkElement = screen.getByText(/react/i);
     expect(linkElement).toBeInTheDocument();
   });
 
@@ -34,9 +34,10 @@ describe('App Test Suite', () => {
     const inputEl = screen.getByLabelText(/Word/i);
     expect(inputEl).toBeInTheDocument();
 
-    const btnEl = screen.getByRole('button', { name: /consultar/i });
+    const btnEl = screen.getByRole('button', { name: /definicion/i });
     expect(btnEl).toBeInTheDocument();
   });
+
 
 
   

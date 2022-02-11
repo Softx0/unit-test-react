@@ -1,9 +1,20 @@
 
 const App = () => {
   return (
-    <h1 class="text-3xl font-bold text-red-600 underline">
-      Hello world! edfdf
-    </h1>
+    <>
+
+      <div>
+        <h1>This is react-testing-library</h1>
+        <form >
+          <label htmlFor="word" >Word: </label>
+          <input id="word" name="word" type="text" />
+
+          <button id="btnConsultar" type="submit" >Definicion</button>
+        </form>
+
+      </div>
+
+    </>
   );
 }
 
