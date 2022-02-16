@@ -5,11 +5,11 @@ const ResponseCode = {
     },
     CLIENT_ERROR : {
         code: 800,
-        message: "Please check the name of the pokemon"
+        message: "Please check your inputs"
     },
     UNDEFINED: {
         code: 404, 
-        message: "Por favor trata con otro Pokemon"
+        message: "Por favor trata denuevo"
     },
 };
 

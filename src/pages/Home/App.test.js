@@ -1,11 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import App from './App';
+import axios from 'axios';
+jest.mock('axios');
 
 describe('App Test Suite', () => {
 
-  beforeEach(() => {
-    render(<App />)
-  });
+
+  beforeEach(() => render(<App />));
 
   test('renders Free Disctionary title', () => {
     // screen.debug(); // para debugear y ver el componente a renderizar
@@ -28,7 +29,7 @@ describe('App Test Suite', () => {
 
 
   // Nota: dejar las pruebas los planas posibles, y single responsability
-  test(`should render element's form`, () => {
+  it(`should render element's form`, () => {
 
     // buscando por el label correspondiente a un input
     const inputEl = screen.getByLabelText(/Word/i);
@@ -38,8 +39,27 @@ describe('App Test Suite', () => {
     expect(btnEl).toBeInTheDocument();
   });
 
+  it('should search a word', async () => {
 
+    axios.get.mockReturnValueOnce({
+      data: [{
+        meanings: [{
+          definitions: [{
+            definition: 'Construcción cubierta destinada a ser habitada'
+          }]
+        }]
+      }]
+    });
 
-  
+    const inputEl = screen.getByLabelText(/word/i);
+    const btnEl = screen.getByRole('button', { name: /definicion/i });
+
+    fireEvent.change(inputEl, { target: { value: 'casa' } });
+    fireEvent.click(btnEl);
+    
+    const wordMeaning = await screen.findAllByText(/Construcción cubierta destinada a ser habitada/i);
+    expect(wordMeaning[0]).toBeInTheDocument();
+
+  });
 
 });
