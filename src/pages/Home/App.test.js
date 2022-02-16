@@ -5,8 +5,28 @@ jest.mock('axios');
 
 describe('App Test Suite', () => {
 
+  beforeEach(() => {
+    render(<App />);
+    axios.get.mockClear();
+  });
 
-  beforeEach(() => render(<App />));
+  const getFakeResponse = ({ expectedDefinition }) => ({
+    data: [{
+      meanings: [{
+        definitions: [{
+          definition: expectedDefinition
+        }]
+      }]
+    }]
+  })
+
+  const fillFormAndSubmit = () => {
+    const inputEl = screen.getByLabelText(/word/i);
+    const btnEl = screen.getByRole('button', { name: /definicion/i });
+
+    fireEvent.change(inputEl, { target: { value: 'casa' } });
+    fireEvent.click(btnEl);
+  }
 
   test('renders Free Disctionary title', () => {
     // screen.debug(); // para debugear y ver el componente a renderizar
@@ -40,26 +60,28 @@ describe('App Test Suite', () => {
   });
 
   it('should search a word', async () => {
+    const expectedDefinition = 'Construcción cubierta destinada a ser habitada';
+    axios.get.mockReturnValueOnce(getFakeResponse({ expectedDefinition }));
 
-    axios.get.mockReturnValueOnce({
-      data: [{
-        meanings: [{
-          definitions: [{
-            definition: 'Construcción cubierta destinada a ser habitada'
-          }]
-        }]
-      }]
-    });
+    fillFormAndSubmit();
 
-    const inputEl = screen.getByLabelText(/word/i);
-    const btnEl = screen.getByRole('button', { name: /definicion/i });
-
-    fireEvent.change(inputEl, { target: { value: 'casa' } });
-    fireEvent.click(btnEl);
-    
-    const wordMeaning = await screen.findAllByText(/Construcción cubierta destinada a ser habitada/i);
+    const wordMeaning = await screen.findAllByText(expectedDefinition);
     expect(wordMeaning[0]).toBeInTheDocument();
+  });
 
+  it('should dissapear loading message when search is finish', async () => {
+    const expectedDefinition = 'Construcción cubierta destinada a ser habitada';
+    axios.get.mockReturnValueOnce(getFakeResponse({ expectedDefinition }));
+
+    fillFormAndSubmit();
+
+    const loadingEl = screen.getByText(/loading/i);
+    expect(loadingEl).toBeInTheDocument();
+
+    await screen.findAllByText(expectedDefinition);
+
+    const loadingElExpetec = screen.queryByText(/loading/i);
+    expect(loadingElExpetec).not.toBeInTheDocument()
   });
 
 });
